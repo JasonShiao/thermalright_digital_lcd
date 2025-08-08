@@ -17,7 +17,7 @@ A program that displays temperature on the thermal right cpu cooler's digital sc
 
 You may also launch it directcly with python
 
-`python3 src/controller.py config.json`
+`python3 src/thermalright_digital_lcd/controller.py config.json`
 
 # Set up as a service so it start at each startup: 
 Create a file in /etc/systemd/system/digital_lcd_controller.service:
@@ -30,7 +30,7 @@ Description=Lcd screen controller
 After=network.target udev.service systemd-modules-load.service
 
 [Service]
-ExecStart=/path/to/the/executable /path/to/the/config.json
+ExecStart=/bin/bash -c 'source /path/to/venv/.venv/bin/activate && exec python /path/to/thermalright_digital_lcd/src/thermalright_digital_lcd/controller.py /path/to/thermalright_digital_lcd/config.json'
 User=yourusername
 Group=yourusername
 Type=simple
@@ -40,6 +40,12 @@ RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
+```
+Then execute
+```
+sudo systemctl enable digital_lcd_controller
+# check status
+sudo systemctl status digital_lcd_controller
 ```
 
 #  Modify the config with the UI :
@@ -59,4 +65,4 @@ Try running the controller as root :
 The correct way to fix this problem is to create a udev rule by editing this file "/etc/udev/rules.d/99-hid-device.rules" : 
 `sudo nano /etc/udev/rules.d/99-hid-device.rules`
 and paste this line : 
-`SUBSYSTEM=="usb", ATTRS{idVendor}=="0416", ATTRS{idProduct}=="8001", MODE="0666"`
+`SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0416", ATTRS{idProduct}=="8001", MODE="0666"`
