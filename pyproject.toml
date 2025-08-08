@@ -3,7 +3,7 @@ requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 
 [project]
-name = "hid-digital-lcd-controller"
+name = "thermalright-hid-digital-lcd-controller"
 version = "1.0"
 dependencies = [
   "numpy",
@@ -15,4 +15,4 @@ requires-python = ">= 3.8"
 readme = "README.md"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/digital_thermal_right_lcd"]
+packages = ["src/thermalright_digital_lcd"]
